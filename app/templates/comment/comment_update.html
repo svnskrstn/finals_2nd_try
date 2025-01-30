@@ -1,0 +1,16 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<h1 class="comment-update-heading">Edit Comment</h1>
+
+<form action="{% url 'comment_update' comment.pk %}" method="POST" class="comment-update-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_content" class="form-label">Comment</label>
+        <textarea name="content" id="id_content" rows="4" required class="form-textarea">{{ comment.content }}</textarea>
+    </div>
+    <button type="submit" class="comment-update-submit-btn">Save Changes</button>
+</form>
+
+<a href="{% url 'artwork_detail' pk=comment.artwork.pk %}" class="comment-update-back-link">Back to Artwork</a>
+{% endblock content %}

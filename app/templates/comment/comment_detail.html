@@ -1,0 +1,11 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<h1 class="comment-details-heading">Comment Details</h1>
+<div class="comment-details-container">
+    <p class="comment-details-content">{{ comment.content }}</p>
+    <p class="comment-details-author">Posted by: <span>{{ comment.user.username }}</span></p>
+    <p class="comment-details-date">Date: <span>{{ comment.date_posted }}</span></p>
+    <a href="{% url 'artwork_detail' comment.artwork.pk %}" class="back-to-artwork-btn">Back to Artwork</a>
+</div>
+{% endblock content %}

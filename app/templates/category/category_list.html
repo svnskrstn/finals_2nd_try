@@ -1,0 +1,24 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="category-list-container">
+    <h1 class="category-list-title">Category List</h1>
+    <ul class="category-list">
+        {% if user.is_authenticated %}
+            {% if user.role == 'Artist' %}
+               <a href="{% url 'category_create' %}" class="category-create-btn">Create New Category</a>
+            {% endif %}
+        {% endif %}
+
+
+        {% for category in categories %}
+        <li class="category-item">
+            <a href="{% url 'category_detail' category.pk %}" class="category-link">{{ category.name }}</a>
+        </li>
+        {% empty %}
+        <p class="no-categories-message">No categories available.</p>
+        {% endfor %}
+    </ul>
+
+</div>
+{% endblock content %}

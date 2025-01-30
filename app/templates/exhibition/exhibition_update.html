@@ -1,0 +1,49 @@
+{% extends 'app/base.html' %}
+{% block content %}
+<div class="exhibition-form-container">
+    <h2 class="exhibition-form-title">Update Exhibition</h2>
+    <form action="{% url 'exhibition_update' exhibition.pk %}" method="post" enctype="multipart/form-data" class="exhibition-form">
+        {% csrf_token %}
+
+        <!-- Title Field -->
+        <div class="form-group">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter the exhibition title" class="form-input" required>
+        </div>
+
+        <!-- Date Field -->
+        <div class="form-group">
+            <label for="date" class="form-label">Date</label>
+            <input type="date" id="date" name="date" class="form-input" required>
+        </div>
+
+        <!-- Location Field -->
+        <div class="form-group">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" id="location" name="location" placeholder="Enter the location" class="form-input" required>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" placeholder="Write a description for the exhibition" class="form-input" rows="6"></textarea>
+        </div>
+
+        <!-- Artworks Field -->
+        <div class="form-group">
+            <label for="artworks" class="form-label">Artworks</label>
+            <select id="artworks" name="artworks" class="form-input" multiple>
+                <!-- Dynamically populate artworks -->
+                {% for artwork in form.fields.artworks.queryset %}
+                <option value="{{ artwork.id }}">{{ artwork.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Save</button>
+    </form>
+
+    <a href="{% url 'exhibition_list' %}" class="back-link">Back to Exhibitions</a>
+</div>
+{% endblock content %}

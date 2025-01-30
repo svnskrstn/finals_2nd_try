@@ -1,0 +1,26 @@
+{% extends 'app/base.html' %}
+{% block content %}
+<div class="category-form-container">
+    <h2 class="category-form-title">Update Category</h2>
+    <form action="{% url 'category_update' category.pk %}" method="post" enctype="multipart/form-data" class="category-form">
+        {% csrf_token %}
+
+        <!-- Name Field -->
+        <div class="form-group">
+            <label for="name" class="form-label">Category Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter the category name" class="form-input" required>
+        </div>
+
+        <!-- Description Field -->
+        <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" placeholder="Write a description for the category" class="form-input" rows="6"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn">Save</button>
+    </form>
+
+    <a href="{% url 'category_list' %}" class="back-link">Back to Categories</a>
+</div>
+{% endblock content %}

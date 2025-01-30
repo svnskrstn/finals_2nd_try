@@ -1,0 +1,28 @@
+{% extends 'app/base.html' %}
+{% block content %}
+
+<div class="gallery-container">
+
+      {% if user.is_authenticated %}
+          {% if user.role == 'Artist' %}
+              <a href="{% url 'artwork_create' %}" class="btn-add-artwork">Add Artwork</a>
+          {% endif %}
+      {% endif %}
+
+
+    <h1 class="gallery-title">Artworks Gallery</h1>
+    <div class="gallery">
+        {% for artwork in artworks %}
+        <div class="gallery-item">
+            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" class="artwork-image">
+            <div class="artwork-info">
+                <h2 class="artwork-title">{{ artwork.title|truncatechars:20 }}</h2>
+                <p class="artwork-artist">By: {{ artwork.artist.username }}</p>
+                <a href="{% url 'artwork_detail' artwork.pk %}" class="btn-view-detail">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

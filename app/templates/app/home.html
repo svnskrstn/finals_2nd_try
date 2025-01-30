@@ -1,0 +1,38 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content %}
+<div class="home-container">
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to the Art Gallery</h1>
+            <p>Discover, explore, and appreciate the finest works of art from talented artists.</p>
+            <a href="#explore" class="btn-cta">Explore Art</a>
+        </div>
+    </section>
+
+    <!-- Featured Artworks Section -->
+    <section class="featured-artworks" id="explore">
+        <h2 class="section-title">Featured Artworks</h2>
+        <div class="artwork-gallery">
+            {% for artwork in artworks %}
+            <div class="artwork-card">
+                 <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" class="artwork-image">
+                <div class="artwork-details">
+                    <h3 class="artwork-title">{{ artwork.title }}</h3>
+                    <p class="artist-name">By {{ artwork.artist }}</p>
+                    <a href="{% url 'artwork_detail' artwork.pk %}" class="btn-detail">View Artwork</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Artist Call to Action Section -->
+    <section class="cta-section">
+        <h2>Are you an Artist?</h2>
+        <p>Upload your artwork and share your creativity with the world!</p>
+        <a href="{% url 'signup' %}" class="btn-cta">Register Now !</a>
+    </section>
+</div>
+{% endblock content %}

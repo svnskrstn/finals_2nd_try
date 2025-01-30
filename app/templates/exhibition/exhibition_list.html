@@ -1,0 +1,26 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="exhibition-list-container">
+        {% if user.is_authenticated %}
+            {% if user.role == 'Artist' %}
+                <a href="{% url 'exhibition_create' %}" class="exhibition-add-btn">Add Exhibition</a>
+            {% endif %}
+        {% endif %}
+
+    <h1 class="exhibition-list-title">Exhibitions</h1>
+    <div class="exhibition-cards-container">
+        {% for exhibition in exhibitions %}
+        <div class="exhibition-card-item">
+            <h2 class="exhibition-card-title">{{ exhibition.title }}</h2>
+            <p class="exhibition-card-date"><strong>Date:</strong> {{ exhibition.date }}</p>
+            <p class="exhibition-card-location"><strong>Location:</strong> {{ exhibition.location }}</p>
+            <p class="exhibition-card-description">{{ exhibition.description|truncatewords:20 }}</p>
+            <a href="{% url 'exhibition_detail' exhibition.pk %}" class="exhibition-card-detail-btn">View Details</a>
+        </div>
+        {% empty %}
+        <p>No exhibitions available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

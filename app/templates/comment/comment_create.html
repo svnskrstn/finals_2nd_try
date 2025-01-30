@@ -1,0 +1,16 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<h1 class="comment-create-heading">Create a New Comment</h1>
+
+<form action="{% url 'comment_create' artwork.pk %}" method="POST" class="comment-create-form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_content" class="form-label">Comment</label>
+        <textarea name="content" id="id_content" rows="4" required class="form-textarea"></textarea>
+    </div>
+    <button type="submit" class="comment-create-submit-btn">Submit</button>
+</form>
+
+<a href="{% url 'artwork_detail' pk=artwork.pk %}" class="comment-create-back-link">Back to Artwork</a>
+{% endblock content %}

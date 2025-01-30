@@ -1,0 +1,65 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<div class="artwork-detail-container">
+  <div class="artwork-left-column">
+    <div class="artwork-detail-actions">
+        {% if user.is_authenticated and user.role == 'Artist' and artwork.artist == user %}
+            <a href="{% url 'artwork_update' artwork.pk %}" class="update-artwork-link">Update Artwork</a>
+            <a href="{% url 'artwork_delete' artwork.pk %}" class="delete-artwork-link">Delete Artwork</a>
+        {% endif %}
+    </div>
+    {% if artwork.image %}
+      <img src="{{ artwork.image.url }}" alt="{{ artwork.title }} Image" class="artwork-img">
+    {% else %}
+      <p>No image available</p>
+    {% endif %}
+    <div class="artwork-details">
+      <h2 class="artwork-title">{{ artwork.title }}</h2>
+      <p class="artwork-artist"><strong>Artist:</strong> {{ artwork.artist }}</p>
+      <p class="artwork-created-at"><strong>Description</strong> {{ artwork.created_at }}</p>
+      <p class="artwork-description">{{ artwork.description }}</p>
+    </div>
+  </div>
+
+  <div class="artwork-right-column">
+    <div class="comments-section">
+      <h3 class="comments-title">Comments</h3>
+      <a href="{% url 'comment_create' artwork.pk %}" class="add-comment-link">Add a Comment</a>
+      <div class="comments-container">
+        <ul class="comments-list">
+          {% for comment in artwork.comments.all %}
+            <li class="comment-item">
+              <div class="comment-header">
+                <strong class="comment-author">{{ comment.user.username }}</strong>
+                <span class="comment-date">• {{ comment.created_at }}</span>
+              </div>
+              <p class="comment-content">
+                {% if comment.content|length > 30 %}
+                  {{ comment.content|slice:":30" }}...
+                  <a href="{% url 'comment_detail' comment.pk %}" class="see-more-link">See More</a>
+                {% else %}
+                  {{ comment.content }}
+                {% endif %}
+              </p>
+              <div class="comment-actions">
+                {% if comment.user == user %}
+                  <form action="{% url 'comment_update' comment.pk %}" method="get" style="display: inline;">
+                    <button type="submit" class="edit-comment-button">Edit</button>
+                  </form>
+                  <form action="{% url 'comment_delete' comment.pk %}" method="post" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-comment-button">Delete</button>
+                  </form>
+                {% endif %}
+              </div>
+            </li>
+          {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
